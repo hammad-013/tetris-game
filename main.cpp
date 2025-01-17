@@ -796,7 +796,7 @@ void blockMovement(int height, char boardArr[][20], char ch, char shape[][4] , i
                 else{
                     lastColShape = lastElem;
                 }
-                if(lastColShape+1<19){
+                if(lastColShape+1<19&&boardArr[currentRow][lastColShape+1]!=ch){
                 for (int i = 0; i < srow; i++)
                 {
                     for (int j = 0; j < scol; j++)
@@ -862,7 +862,7 @@ void blockMovement(int height, char boardArr[][20], char ch, char shape[][4] , i
                     firstColShape = firstElem;
                 }
 
-                if(firstColShape-1>0){
+                if(firstColShape-1>0&&boardArr[currentRow][firstColShape-1]!=ch){
                 for (int i = 0; i < srow; i++)
                 {
                     for (int j = 0; j < scol; j++)
@@ -1159,6 +1159,9 @@ cout<<endl;
 
 
 
+    }
+    if(boardArr[4][8]==blockElement || boardArr[4][9]==blockElement || boardArr[4][10]==blockElement || boardArr[4][11]==blockElement){
+        break;
     }
             //shapeStart = 8;
            // shapeEnd = 11;
