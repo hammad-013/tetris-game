@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
+#include <fstream>
 
 using namespace std;
 
@@ -23,13 +24,13 @@ void sleep(int m)
     {
     }
 }
-void fillBoard(int rows, char arr[][20], char ch)
+void fillBoard(int rows, char arr[][30], char ch)
 {
-    for (int i = 0; i < 30; i++)
+    for (int i = 0; i < 35; i++)
     {
-        for (int j = 0; j < 20; j++)
+        for (int j = 0; j < 30; j++)
         {
-            if (i == 29 || j==0||j==19)
+            if (i == 34 || j == 0 || j == 29)
             {
                 arr[i][j] = ch;
             }
@@ -41,21 +42,21 @@ void fillBoard(int rows, char arr[][20], char ch)
     }
 }
 
-void printBoard(int rows, char arr[][20])
+void printBoard(int rows, char arr[][30])
 {
     for (int i = 0; i < rows; i++)
     {
         cout << "< ! ";
-        for (int j = 0; j < 20; j++)
+        for (int j = 0; j < 30; j++)
         {
-            cout << arr[i][j]<<" ";
+            cout << arr[i][j] << "";
         }
         cout << " ! >" << endl;
     }
     cout << "< ! ";
-    for (int k = 0; k < 20; k++)
+    for (int k = 0; k < 30; k++)
     {
-        cout << "= ";
+        cout << "=";
     }
     cout << " ! >" << endl;
 }
@@ -71,669 +72,728 @@ void shapeRotation(char shape[][4], int row, int col)
             shape[j][i] = temp;
         }
     }
-    //reverse rows
-    for(int i=0;i<row;i++){
-        int start = 0, endd=col-1;
-    while(start<endd){
-        int temp = shape[i][start];
-        shape[i][start] = shape[i][endd];
-        shape[i][endd] = temp;
-        start++;
-        endd--;
+    // reverse rows
+    for (int i = 0; i < row; i++)
+    {
+        int start = 0, endd = col - 1;
+        while (start < endd)
+        {
+            int temp = shape[i][start];
+            shape[i][start] = shape[i][endd];
+            shape[i][endd] = temp;
+            start++;
+            endd--;
+        }
     }
-    }
-
 }
-void shapeRotation270(char shape[][4], int row, int col)
+
+bool Collision(int breakRow, int shapeNum, int Rotate, int &firstElem, int &lastElem, char boardArr[][30], char ch)
 {
-    //transpose
-    //reverse columns
-}
-bool Collision(int breakRow, int shapeNum, int Rotate, int &firstElem,int &lastElem, char boardArr[][20], char ch){
 
-        if (shapeNum == 1 && Rotate == 1)
-        {
-            breakRow += 3;
-        }
-        else if (shapeNum == 1 && Rotate == 2)
-        {
-            breakRow += 3;
-        }
-        else if (shapeNum == 1 && Rotate == 3)
-        {
-            breakRow += 3;
-        }
-        else if (shapeNum == 2 && Rotate == 0)
-        {
-            breakRow += 1;
-        }
-        else if (shapeNum == 2 && Rotate == 1)
-        {
-            breakRow += 2;
-        }
-        else if (shapeNum == 2 && Rotate == 2)
-        {
-            breakRow += 3;
-        }
-        else if (shapeNum == 2 && Rotate == 3)
-        {
-            breakRow += 3;
-        }
-        else if (shapeNum == 3 && Rotate == 0)
-        {
-            breakRow += 1;
-        }
-        else if (shapeNum == 3 && Rotate == 1)
-        {
-            breakRow += 3;
-        }
-        else if (shapeNum == 3 && Rotate == 2)
-        {
-            breakRow += 3;
-        }
-        else if (shapeNum == 3 && Rotate == 3)
-        {
-            breakRow += 2;
-        }
-        else if (shapeNum == 4)
-        {
-            breakRow += 1;
-        }
-        else if (shapeNum == 5 && Rotate == 0)
-        {
-            breakRow += 2;
-        }
-        else if (shapeNum == 5 && Rotate == 1)
-        {
-            breakRow += 1;
-        }
-        else if (shapeNum == 5 && Rotate == 2)
-        {
-            breakRow += 3;
-        }
-        else if (shapeNum == 5 && Rotate == 3)
-        {
-            breakRow += 3;
-        }
-        else if (shapeNum == 6 && Rotate == 0)
-        {
-            breakRow += 2;
-        }
-        else if (shapeNum == 6 && Rotate == 1)
-        {
-            breakRow += 3;
-        }
-        else if (shapeNum == 6 && Rotate == 2)
-        {
-            breakRow += 3;
-        }
-        else if (shapeNum == 6 && Rotate == 3)
-        {
-            breakRow += 1;
-        }
-        else if (shapeNum == 7 && Rotate == 0)
-        {
-            breakRow += 1;
-        }
-        else if (shapeNum == 7 && Rotate == 1)
-        {
-            breakRow += 2;
-        }
-        else if (shapeNum == 7 && Rotate == 2)
-        {
-            breakRow += 3;
-        }
-        else if (shapeNum == 7 && Rotate == 3)
-        {
-            breakRow += 3;
-        }
-        gotoRowCol(5, 60);
-        cout << breakRow;
+   if((shapeNum == 1 && Rotate == 1)|| (shapeNum == 1 && Rotate == 2)||(shapeNum == 1 && Rotate == 3)||(shapeNum == 2 && Rotate == 2)||(shapeNum == 2 && Rotate == 3)||(shapeNum == 3 && Rotate == 1)||(shapeNum == 3 && Rotate == 2)||(shapeNum == 5 && Rotate == 2)||(shapeNum == 5 && Rotate == 3)||(shapeNum == 6 && Rotate == 1)||(shapeNum == 6 && Rotate == 2)||(shapeNum == 7 && Rotate == 2)||(shapeNum == 7 && Rotate == 3)){
+        breakRow += 3;
+    }
+    else if((shapeNum == 2 && Rotate == 0)||(shapeNum == 3 && Rotate == 0)||(shapeNum == 4)||(shapeNum == 5 && Rotate == 1)||(shapeNum == 6 && Rotate == 3)||(shapeNum == 7 && Rotate == 0)){
+        breakRow += 1;
+    }
+    else if((shapeNum == 2 && Rotate == 1)||(shapeNum == 3 && Rotate == 3)||(shapeNum == 5 && Rotate == 0)||(shapeNum == 6 && Rotate == 0)||(shapeNum == 7 && Rotate == 1)){
+        breakRow += 2;
+    }
 
-
-        //sleep(6000);
-        if(shapeNum==1 && Rotate==0){
+     if(Rotate==0){
+        if (shapeNum == 1 )
+    {
         if (boardArr[breakRow][firstElem] == ch || boardArr[breakRow][firstElem + 1] == ch || boardArr[breakRow][firstElem + 2] == ch || boardArr[breakRow][firstElem + 3] == ch)
         {
-           // firstElem =8;
-           // lastElem =11;
             return 1;
         }
-        else{
-            return 0;
-        }}
-        else if(shapeNum==1 && Rotate==1){
-            if (boardArr[breakRow][firstElem+3] == ch )
+        else
         {
-           // firstElem =8;
-           // lastElem =11;
+            return 0;
+        }
+    }
+    else if (shapeNum == 2 )
+    {
+        if (boardArr[breakRow - 1][firstElem] == ch || boardArr[breakRow][firstElem + 1] == ch || boardArr[breakRow][firstElem + 2] == ch)
+        {
             return 1;
-        }else{
-        return 0;
         }
+        else
+        {
+            return 0;
         }
-        else if(shapeNum==1 && Rotate==2){
+    }
+    else if (shapeNum == 3 )
+    {
+        if (boardArr[breakRow][firstElem + 1] == ch || boardArr[breakRow][firstElem + 2] == ch || boardArr[breakRow - 1][firstElem + 3] == ch)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+     else if (shapeNum == 4)
+    {
+        if (boardArr[breakRow][firstElem + 1] == ch || boardArr[breakRow][firstElem + 2] == ch)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else if (shapeNum == 5 )
+    {
+        if (boardArr[breakRow][firstElem] == ch || boardArr[breakRow][firstElem + 1] == ch)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else if (shapeNum == 6 )
+    {
+        if (boardArr[breakRow][firstElem + 2] == ch || boardArr[breakRow][firstElem + 3] == ch)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+     else if (shapeNum == 7 )
+    {
+        if (boardArr[breakRow - 1][firstElem] == ch || boardArr[breakRow][firstElem + 1] == ch || boardArr[breakRow - 1][firstElem + 2] == ch)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    }
+    else if(Rotate==1){
+        if (shapeNum == 1)
+    {
+        if (boardArr[breakRow][firstElem + 3] == ch)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else if (shapeNum == 2)
+    {
+        if (boardArr[breakRow][firstElem + 2] == ch || boardArr[breakRow - 1][firstElem + 3] == ch)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else if (shapeNum == 3)
+    {
+        if (boardArr[breakRow - 1][firstElem + 2] == ch || boardArr[breakRow][firstElem + 3] == ch)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else if (shapeNum == 5)
+    {
+        if (boardArr[breakRow][firstElem + 1] == ch || boardArr[breakRow - 1][firstElem + 2] == ch || boardArr[breakRow - 1][firstElem + 3] == ch)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else if (shapeNum == 6)
+    {
+        if (boardArr[breakRow][firstElem + 1] == ch || boardArr[breakRow][firstElem + 2] == ch || boardArr[breakRow][firstElem + 3] == ch)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else if (shapeNum == 7)
+    {
+        if (boardArr[breakRow - 1][firstElem + 2] == ch || boardArr[breakRow][firstElem + 3] == ch)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    }
+    else if(Rotate==2){
+        if (shapeNum == 1)
+    {
         if (boardArr[breakRow][firstElem] == ch || boardArr[breakRow][firstElem + 1] == ch || boardArr[breakRow][firstElem + 2] == ch || boardArr[breakRow][firstElem + 3] == ch)
         {
-           // firstElem =8;
-           // lastElem =11;
             return 1;
         }
-        else{
-            return 0;
-        }}
-        if(shapeNum==1 && Rotate==3){
-        if (boardArr[breakRow][firstElem] == ch )
+        else
         {
-           // firstElem =8;
-           // lastElem =11;
-            return 1;
-        }
-        else{
-            return 0;
-        }}
-
-        else if(shapeNum==2 && Rotate==0){
-            if (boardArr[breakRow-1][firstElem] == ch||boardArr[breakRow][firstElem + 1] == ch || boardArr[breakRow][firstElem + 2] == ch )
-        {
-           // firstElem =8;
-           // lastElem =11;
-            return 1;
-        }else{
-        return 0;
-        }}
-        else if(shapeNum==2 && Rotate==1){
-            if (boardArr[breakRow][firstElem+2] == ch || boardArr[breakRow-1][firstElem+3] == ch)
-        {
-           // firstElem =8;
-           // lastElem =11;
-            return 1;
-        }
-        else{
             return 0;
         }
-        }
-        else if(shapeNum==2 && Rotate==2){
-            if (boardArr[breakRow-1][firstElem+1] == ch || boardArr[breakRow][firstElem+2] == ch|| boardArr[breakRow][firstElem+3] == ch)
+    }
+    else if (shapeNum == 2)
+    {
+        if (boardArr[breakRow - 1][firstElem + 1] == ch || boardArr[breakRow][firstElem + 2] == ch || boardArr[breakRow][firstElem + 3] == ch)
         {
-           // firstElem =8;
-           // lastElem =11;
             return 1;
         }
-        else{
+        else
+        {
             return 0;
         }
-        }
-        else if(shapeNum==2 && Rotate==3){
-            if (boardArr[breakRow][firstElem] == ch || boardArr[breakRow-1][firstElem+1] == ch)
+    }
+    else if (shapeNum == 3)
+    {
+        if (boardArr[breakRow][firstElem] == ch || boardArr[breakRow][firstElem + 1] == ch || boardArr[breakRow - 1][firstElem + 2] == ch)
         {
-           // firstElem =8;
-           // lastElem =11;
             return 1;
         }
-        else{
+        else
+        {
             return 0;
         }
-        }
-
-        else if(shapeNum==3 && Rotate==0){
-            if (boardArr[breakRow][firstElem + 1] == ch || boardArr[breakRow][firstElem + 2] == ch ||  boardArr[breakRow-1][firstElem + 3] == ch)
+    }
+    else if (shapeNum == 5)
+    {
+        if (boardArr[breakRow - 2][firstElem + 2] == ch || boardArr[breakRow][firstElem + 3] == ch)
         {
-           // firstElem =8;
-           // lastElem =11;
-            return 1;
-        }else{
-        return 0;
-        }
-        }
-        else if(shapeNum==3 && Rotate==1){
-            if (boardArr[breakRow-1][firstElem+2] == ch || boardArr[breakRow][firstElem+3] == ch)
-        {
-           // firstElem =8;
-           // lastElem =11;
             return 1;
         }
-        else{
+        else
+        {
             return 0;
         }
-        }
-        else if(shapeNum==3 && Rotate==2){
-            if (boardArr[breakRow][firstElem] == ch || boardArr[breakRow][firstElem+1] == ch||boardArr[breakRow-1][firstElem+2] == ch)
+    }
+    else if (shapeNum == 6)
+    {
+        if (boardArr[breakRow][firstElem] == ch || boardArr[breakRow - 2][firstElem + 1] == ch)
         {
-           // firstElem =8;
-           // lastElem =11;
             return 1;
         }
-        else{
+        else
+        {
             return 0;
         }
-        }
-        else if(shapeNum==3 && Rotate==3){
-            if (boardArr[breakRow-1][firstElem] == ch || boardArr[breakRow][firstElem+1] == ch)
+    }
+    else if (shapeNum == 7)
+    {
+        if (boardArr[breakRow][firstElem + 1] == ch || boardArr[breakRow][firstElem + 2] == ch || boardArr[breakRow][firstElem + 3] == ch)
         {
-           // firstElem =8;
-           // lastElem =11;
             return 1;
         }
-        else{
+        else
+        {
             return 0;
         }
-        }
-        else if(shapeNum==4){
-            if (boardArr[breakRow][firstElem + 1] == ch || boardArr[breakRow][firstElem + 2] == ch )
+    }
+    }
+    else if(Rotate==3){
+        if (shapeNum == 1)
+    {
+        if (boardArr[breakRow][firstElem] == ch)
         {
-           // firstElem =8;
-           // lastElem =11;
-            return 1;
-        }else{
-        return 0;
-        }
-        }
-        else if(shapeNum==5 && Rotate==0){
-            if (boardArr[breakRow][firstElem] == ch || boardArr[breakRow][firstElem + 1] == ch )
-        {
-           // firstElem =8;
-           // lastElem =11;
-            return 1;
-        }else{
-        return 0;
-        }
-        }
-        else if(shapeNum==5 && Rotate==1){
-            if (boardArr[breakRow][firstElem+1] == ch ||boardArr[breakRow-1][firstElem+2] == ch||boardArr[breakRow-1][firstElem+3] == ch)
-        {
-           // firstElem =8;
-           // lastElem =11;
             return 1;
         }
-        else{
+        else
+        {
             return 0;
         }
-        }
-        else if(shapeNum==5 && Rotate==2){
-            if (boardArr[breakRow-2][firstElem+2] == ch||boardArr[breakRow][firstElem+3] == ch )
+    }
+    else if (shapeNum == 2)
+    {
+        if (boardArr[breakRow][firstElem] == ch || boardArr[breakRow - 1][firstElem + 1] == ch)
         {
-           // firstElem =8;
-           // lastElem =11;
             return 1;
         }
-        else{
+        else
+        {
             return 0;
         }
-        }
-        else if(shapeNum==5 && Rotate==3){
-            if (boardArr[breakRow][firstElem] == ch || boardArr[breakRow][firstElem+1] == ch  || boardArr[breakRow][firstElem+2] == ch)
+    }
+    else if (shapeNum == 3)
+    {
+        if (boardArr[breakRow - 1][firstElem] == ch || boardArr[breakRow][firstElem + 1] == ch)
         {
-           // firstElem =8;
-           // lastElem =11;
             return 1;
         }
-        else{
+        else
+        {
             return 0;
         }
-        }
-        else if(shapeNum==6 && Rotate==0){
-            if (boardArr[breakRow][firstElem +2] == ch || boardArr[breakRow][firstElem + 3] == ch )
+    }
+     else if (shapeNum == 5)
+    {
+        if (boardArr[breakRow][firstElem] == ch || boardArr[breakRow][firstElem + 1] == ch || boardArr[breakRow][firstElem + 2] == ch)
         {
-           // firstElem =8;
-           // lastElem =11;
-            return 1;
-        }else{
-        return 0;
-        }
-        }
-        else if(shapeNum==6 && Rotate==1){
-            if (boardArr[breakRow][firstElem+1] == ch || boardArr[breakRow][firstElem+2] == ch || boardArr[breakRow][firstElem+3] == ch)
-        {
-           // firstElem =8;
-           // lastElem =11;
-            return 1;
-        }else{
-        return 0;
-        }}
-        else if(shapeNum==6 && Rotate==2){
-            if (boardArr[breakRow][firstElem] == ch ||boardArr[breakRow-2][firstElem+1] == ch)
-        {
-           // firstElem =8;
-           // lastElem =11;
-            return 1;
-        }else{
-        return 0;
-        }}
-        else if(shapeNum==6 && Rotate==3){
-            if (boardArr[breakRow-1][firstElem] == ch||boardArr[breakRow-1][firstElem+1] == ch||boardArr[breakRow][firstElem+2] == ch )
-        {
-           // firstElem =8;
-           // lastElem =11;
-            return 1;
-        }else{
-        return 0;
-        }}
-        else if(shapeNum==7 && Rotate==0){
-            if (boardArr[breakRow-1][firstElem] == ch|| boardArr[breakRow][firstElem + 1] == ch ||boardArr[breakRow-1][firstElem + 2] == ch)
-        {
-           // firstElem =8;
-           // lastElem =11;
-            return 1;
-        }else{
-        return 0;
-        }
-        }
-        else if(shapeNum==7 && Rotate==1){
-            if (boardArr[breakRow-1][firstElem+2] == ch||boardArr[breakRow][firstElem+3] == ch )
-        {
-           // firstElem =8;
-           // lastElem =11;
             return 1;
         }
-        else{
+        else
+        {
             return 0;
         }
-        }
-        else if(shapeNum==7 && Rotate==2){
-            if (boardArr[breakRow][firstElem+1] == ch||boardArr[breakRow][firstElem+2] == ch||boardArr[breakRow][firstElem+3] == ch )
+    }
+    else if (shapeNum == 6)
+    {
+        if (boardArr[breakRow - 1][firstElem] == ch || boardArr[breakRow - 1][firstElem + 1] == ch || boardArr[breakRow][firstElem + 2] == ch)
         {
-           // firstElem =8;
-           // lastElem =11;
             return 1;
         }
-        else{
+        else
+        {
             return 0;
         }
-        }
-        else if(shapeNum==7 && Rotate==3){
-            if (boardArr[breakRow][firstElem] == ch || boardArr[breakRow-1][firstElem+1] == ch)
+    }
+    else if (shapeNum == 7)
+    {
+        if (boardArr[breakRow][firstElem] == ch || boardArr[breakRow - 1][firstElem + 1] == ch)
         {
-           // firstElem =8;
-           // lastElem =11;
             return 1;
         }
-        else{
+        else
+        {
             return 0;
         }
-        }
-        else{
-        return 0;
-        }
-}
-void erasingShapes(int shapeNum, int Rotate, char boardArr[][20],int removeRow, int removeCol){
-    if(shapeNum==1 && Rotate==0){
-            for(int i=0;i<4;i++){
-                boardArr[removeRow-1][removeCol+i] = '-';
-            }
     }
-    else if(shapeNum==1 && Rotate==1){
-            removeRow--;
-            removeCol+=3;
-        for(int i=0;i<4;i++){
-            boardArr[removeRow+i][removeCol] = '-';
-            }
-    }
-    else if(shapeNum==1 && Rotate==2){
-            removeRow+=2;
-        for(int i=0;i<4;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-    }
-    else if(shapeNum==1 && Rotate==3){
-            removeRow--;
-        for(int i=0;i<4;i++){
-            boardArr[removeRow+i][removeCol] = '-';
-            }
-    }
-    else if(shapeNum==2 && Rotate==0){
-            removeRow--;
-        for(int i=0;i<2;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-            removeRow++;
-            removeCol++;
-        for(int i=0;i<2;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-    }
-    else if(shapeNum==2 && Rotate==1){
-            removeRow--;
-            removeCol+=3;
-        for(int i=0;i<2;i++){
-            boardArr[removeRow+i][removeCol] = '-';
-            }
-            removeRow++;
-            removeCol--;
-            for(int i=0;i<2;i++){
-            boardArr[removeRow+i][removeCol] = '-';
-            }
-    }
-    else if(shapeNum==2 && Rotate==2){
-        gotoRowCol(6,60);
-            cout<<removeRow;
-            removeRow++;
-            removeCol++;
-        for(int i=0;i<2;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-    gotoRowCol(6,60);
-            cout<<removeRow;
-            removeRow++;
-            removeCol++;
-            gotoRowCol(6,60);
-            cout<<removeRow;
-            for(int i=0;i<2;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-    }
-    else if(shapeNum==2 && Rotate==3){
-
-            removeCol++;
-        for(int i=0;i<2;i++){
-            boardArr[removeRow][removeCol] = '-';
-            }
-            removeRow++;
-            removeCol--;
-            for(int i=0;i<2;i++){
-            boardArr[removeRow+i][removeCol] = '-';
-            }
-    }
-    else if(shapeNum==3 && Rotate==0){
-            removeCol+=2;
-            removeRow--;
-            for(int i=0;i<2;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-            removeCol-=1;
-            removeRow++;
-            for(int i=0;i<2;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-    }
-    else if(shapeNum==3 && Rotate==1){
-            removeCol+=2;
-        for(int i=0;i<2;i++){
-            boardArr[removeRow+i][removeCol] = '-';
-            }
-            removeRow++;
-            removeCol++;
-            for(int i=0;i<2;i++){
-            boardArr[removeRow+i][removeCol] = '-';
-            }
-    }
-    else if(shapeNum==3 && Rotate==2){
-            removeRow++;
-            removeCol++;
-        for(int i=0;i<2;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-            removeRow++;
-            removeCol--;
-            for(int i=0;i<2;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-    }
-    else if(shapeNum==3 && Rotate==3){
-            removeRow--;
-        for(int i=0;i<2;i++){
-            boardArr[removeRow+i][removeCol] = '-';
-            }
-            removeRow++;
-            removeCol++;
-            for(int i=0;i<2;i++){
-            boardArr[removeRow+i][removeCol] = '-';
-            }
-    }
-    else if(shapeNum==4){
-            removeRow--;
-            removeCol++;
-        for(int i=0;i<2;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-            removeRow++;
-            for(int i=0;i<2;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-    }
-    else if(shapeNum==5 && Rotate==0){
-            removeRow--;
-        for(int i=0;i<3;i++){
-            boardArr[removeRow+i][removeCol] = '-';
-            }
-            removeRow+=2;
-            removeCol++;
-            boardArr[removeRow][removeCol] = '-';
-    }
-    else if(shapeNum==5 && Rotate==1){
-            removeRow--;
-            removeCol++;
-            for(int i=0;i<3;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-            removeRow++;
-            boardArr[removeRow][removeCol] = '-';
-    }
-    else if(shapeNum==5 && Rotate==2){
-            removeCol+=2;
-            for(int i=0;i<2;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-            removeRow++;
-            removeCol++;
-            for(int i=0;i<2;i++){
-                boardArr[removeRow+i][removeCol] = '-';
-            }
-    }
-    else if(shapeNum==5 && Rotate==3){
-            removeRow++;
-            removeCol+=2;
-            boardArr[removeRow][removeCol] = '-';
-            removeRow++;
-            for(int i=0;i<3;i++){
-            boardArr[removeRow][removeCol-i] = '-';
-            }
-
-    }
-    else if(shapeNum==6 && Rotate==0){
-            removeCol+=3;
-            removeRow--;
-            for(int i=0;i<3;i++){
-            boardArr[removeRow+i][removeCol] = '-';
-            }
-            removeCol-=1;
-            removeRow+=2;
-            boardArr[removeRow][removeCol] = '-';
-    }
-    else if(shapeNum==6 && Rotate==1){
-            removeRow++;
-            removeCol++;
-            for(int i=0;i<2;i++){
-                boardArr[removeRow+i][removeCol] = '-';
-            }
-            removeCol++;
-            removeRow++;
-            for(int i=0;i<2;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-    }
-    else if(shapeNum==6 && Rotate==2){
-
-            for(int i=0;i<3;i++){
-            boardArr[removeRow+i][removeCol] = '-';
-            }
-            removeCol++;
-            boardArr[removeRow][removeCol] = '-';
-    }
-    else if(shapeNum==6 && Rotate==3){
-            removeRow--;
-            for(int i=0;i<3;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-            removeRow++;
-            removeCol+=2;
-            boardArr[removeRow][removeCol] = '-';
-
-    }
-    else if(shapeNum==7 && Rotate==0){
-            removeRow--;
-            for(int i=0;i<3;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-            removeCol+=1;
-            removeRow++;
-            boardArr[removeRow][removeCol] = '-';
-    }
-    else if(shapeNum==7 && Rotate==1){
-            removeCol+=3;
-            removeRow--;
-            for(int i=0;i<3;i++){
-            boardArr[removeRow+i][removeCol] = '-';
-            }
-            removeRow++;
-            removeCol--;
-            boardArr[removeRow][removeCol] = '-';
-    }
-    else if(shapeNum==7 && Rotate==2){
-            removeCol+=2;
-            removeRow++;
-            boardArr[removeRow][removeCol] = '-';
-            removeRow++;
-            removeCol--;
-            for(int i=0;i<3;i++){
-            boardArr[removeRow][removeCol+i] = '-';
-            }
-    }
-    else if(shapeNum==7 && Rotate==3){
-            for(int i=0;i<3;i++){
-            boardArr[removeRow+i][removeCol] = '-';
-            }
-
-            removeRow++;
-            removeCol++;
-            boardArr[removeRow][removeCol] = '-';
     }
 }
-void removeARow(char boardArr[][20], int row){
-    for(int i=1;i<19;i++){
-        boardArr[row][i]= '-';
+void erasingShapes(int shapeNum, int Rotate, char boardArr[][30], int removeRow, int removeCol)
+{
+     if(Rotate==0){
+        if (shapeNum == 1 )
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            boardArr[removeRow - 1][removeCol + i] = '-';
+        }
     }
-    for(int i=0;i<=row;i++){
-        for(int j=1;j<19;j++){
-            boardArr[row][j] = boardArr[row-1][j];
+    else if (shapeNum == 2 )
+    {
+        removeRow--;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+        removeRow++;
+        removeCol++;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+    }
+    else if (shapeNum == 3 )
+    {
+        removeCol += 2;
+        removeRow--;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+        removeCol -= 1;
+        removeRow++;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+    }
+    else if (shapeNum == 4)
+    {
+        removeRow--;
+        removeCol++;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+        removeRow++;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+    }
+    else if (shapeNum == 5 )
+    {
+        removeRow--;
+        for (int i = 0; i < 3; i++)
+        {
+            boardArr[removeRow + i][removeCol] = '-';
+        }
+        removeRow += 2;
+        removeCol++;
+        boardArr[removeRow][removeCol] = '-';
+    }
+    else if (shapeNum == 6 )
+    {
+        removeCol += 3;
+        removeRow--;
+        for (int i = 0; i < 3; i++)
+        {
+            boardArr[removeRow + i][removeCol] = '-';
+        }
+        removeCol -= 1;
+        removeRow += 2;
+        boardArr[removeRow][removeCol] = '-';
+    }
+     else if (shapeNum == 7 )
+    {
+        removeRow--;
+        for (int i = 0; i < 3; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+        removeCol += 1;
+        removeRow++;
+        boardArr[removeRow][removeCol] = '-';
+    }
+    }
+    else if(Rotate==1){
+         if (shapeNum == 1 )
+    {
+        removeRow--;
+        removeCol += 3;
+        for (int i = 0; i < 4; i++)
+        {
+            boardArr[removeRow + i][removeCol] = '-';
+        }
+    }
+    else if (shapeNum == 2 )
+    {
+        removeRow--;
+        removeCol += 3;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow + i][removeCol] = '-';
+        }
+        removeRow++;
+        removeCol--;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow + i][removeCol] = '-';
+        }
+    }
+    else if (shapeNum == 3 )
+    {
+        removeCol += 2;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow + i][removeCol] = '-';
+        }
+        removeRow++;
+        removeCol++;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow + i][removeCol] = '-';
+        }
+    }
+    else if (shapeNum == 5 )
+    {
+        removeRow--;
+        removeCol++;
+        for (int i = 0; i < 3; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+        removeRow++;
+        boardArr[removeRow][removeCol] = '-';
+    }
+     else if (shapeNum == 6 )
+    {
+        removeRow++;
+        removeCol++;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow + i][removeCol] = '-';
+        }
+        removeCol++;
+        removeRow++;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+    }
+    else if (shapeNum == 7 )
+    {
+        removeCol += 3;
+        removeRow--;
+        for (int i = 0; i < 3; i++)
+        {
+            boardArr[removeRow + i][removeCol] = '-';
+        }
+        removeRow++;
+        removeCol--;
+        boardArr[removeRow][removeCol] = '-';
+    }
+    }
+    else if(Rotate==2){
+         if (shapeNum == 1 )
+    {
+        removeRow += 2;
+        for (int i = 0; i < 4; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+    }
+    else if (shapeNum == 2 )
+    {
+        gotoRowCol(6, 60);
+        cout << removeRow;
+        removeRow++;
+        removeCol++;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+        gotoRowCol(6, 60);
+        cout << removeRow;
+        removeRow++;
+        removeCol++;
+        gotoRowCol(6, 60);
+        cout << removeRow;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+
+    }
+    else if (shapeNum == 3 )
+    {
+        removeRow++;
+        removeCol++;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+        removeRow++;
+        removeCol--;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+    }
+    else if (shapeNum == 5 )
+    {
+        removeCol += 2;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+        removeRow++;
+        removeCol++;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow + i][removeCol] = '-';
+        }
+    }
+    else if (shapeNum == 6 )
+    {
+
+        for (int i = 0; i < 3; i++)
+        {
+            boardArr[removeRow + i][removeCol] = '-';
+        }
+        removeCol++;
+        boardArr[removeRow][removeCol] = '-';
+    }
+    else if (shapeNum == 7 )
+    {
+        removeCol += 2;
+        removeRow++;
+        boardArr[removeRow][removeCol] = '-';
+        removeRow++;
+        removeCol--;
+        for (int i = 0; i < 3; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+    }
+    }
+    else if(Rotate==3){
+        if (shapeNum == 1 )
+    {
+        removeRow--;
+        for (int i = 0; i < 4; i++)
+        {
+            boardArr[removeRow + i][removeCol] = '-';
+        }
+    }
+    else if (shapeNum == 2 )
+    {
+
+        removeCol++;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow][removeCol] = '-';
+        }
+        removeRow++;
+        removeCol--;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow + i][removeCol] = '-';
+        }
+    }
+    else if (shapeNum == 3 )
+    {
+        removeRow--;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow + i][removeCol] = '-';
+        }
+        removeRow++;
+        removeCol++;
+        for (int i = 0; i < 2; i++)
+        {
+            boardArr[removeRow + i][removeCol] = '-';
+        }
+    }
+    else if (shapeNum == 5 )
+    {
+        removeRow++;
+        removeCol += 2;
+        boardArr[removeRow][removeCol] = '-';
+        removeRow++;
+        for (int i = 0; i < 3; i++)
+        {
+            boardArr[removeRow][removeCol - i] = '-';
+        }
+    }
+    else if (shapeNum == 6 )
+    {
+        removeRow--;
+        for (int i = 0; i < 3; i++)
+        {
+            boardArr[removeRow][removeCol + i] = '-';
+        }
+        removeRow++;
+        removeCol += 2;
+        boardArr[removeRow][removeCol] = '-';
+    }
+    else if (shapeNum == 7 )
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            boardArr[removeRow + i][removeCol] = '-';
+        }
+
+        removeRow++;
+        removeCol++;
+        boardArr[removeRow][removeCol] = '-';
+    }
+    }
+}
+void removeARow(char boardArr[][30], int row)
+{
+    for (int i = 1; i < 29; i++)
+    {
+        boardArr[row][i] = '-';
+    }
+    for (int i = 0; i <= row; i++)
+    {
+        for (int j = 1; j < 29; j++)
+        {
+            boardArr[row][j] = boardArr[row - 1][j];
         }
         row--;
     }
 }
-void blockMovement(int height, char boardArr[][20], char ch, char shape[][4] , int srow, int scol, int shapeNum, int &Rotate)
+void saveArr(char boardArr[][30], int cScore)
 {
-    int firstElem=8,lastElem=11;
+    ofstream write("save.txt");
+    for (int i = 0; i < 35; i++)
+    {
+        for (int j = 0; j < 30; j++)
+        {
+            // if(boardArr[i][j]== ch){
+            write << boardArr[i][j];
+            // }else{
+            // write<<0;}
+        }
+        write << endl;
+    }
+    write << cScore /*<< " " << hScore*/;
+}
+void blockMovement(int height, char boardArr[][30], char ch, char shape[][4], int srow, int scol, int shapeNum, int &Rotate, int cScore)
+{
+    int firstElem = 13, lastElem = 16;
     int currentRow = 0;
 
     while (true)
     {
+        saveArr(boardArr, cScore);
 
-        //sleep(5000);
-        // int movement = getch();
-        // if (movement == 80)
-        //{
-       // sleep(10000);
-        if (kbhit())
+
+        // printing shape
+
+        for (int i = 0; i < srow; i++)
+        {
+            for (int j = 0; j < scol; j++)
+            {
+                if (shape[i][j] == ch)
+                {
+                    boardArr[currentRow][firstElem+j] = shape[i][j];
+                }
+               // firstElem++;
+            }
+            //firstElem -= 4;
+            currentRow++;
+        }
+        currentRow -= 3;
+
+
+        gotoRowCol(0, 0);
+        printBoard(height, boardArr);
+        if (Collision(currentRow, shapeNum, Rotate, firstElem, lastElem, boardArr, ch))
+        {
+            int resetShapeIter;
+            if (Rotate == 1)
+            {
+                resetShapeIter = 3;
+            }
+            else if (Rotate == 2)
+            {
+                resetShapeIter = 2;
+            }
+            else if (Rotate == 3)
+            {
+                resetShapeIter = 1;
+            }
+            for (int i = 1; i <= resetShapeIter; i++)
+            {
+                shapeRotation(shape, srow, scol);
+            }
+            Rotate = 0;
+            break;
+        }
+        // erasing shape
+
+        erasingShapes(shapeNum, Rotate, boardArr, currentRow, firstElem);
+
+            if (kbhit())
         {
             int key = getch();
             if (key == 72 || key == 80)
@@ -741,304 +801,103 @@ void blockMovement(int height, char boardArr[][20], char ch, char shape[][4] , i
                 if (shapeNum != 4)
                 {
                     shapeRotation(shape, srow, scol);
-                    if(Rotate==3){
-                        Rotate=0;
-                    }
-                    else{
-                        Rotate+=1;
-                    }
-
-                }
-            }
-            //right
-            gotoRowCol(7, 60);
-            cout << firstElem;
-            gotoRowCol(9, 60);
-            cout << lastElem;
-            if (key == 77)
-            {   int lastColShape;
-                if(shapeNum==7 && Rotate==0){
-                    lastColShape = lastElem-1;
-                }
-                else if(shapeNum==7 && Rotate==3){
-                    lastColShape = lastElem-2;
-                }
-                else if(shapeNum==6 && Rotate==2){
-                    lastColShape = lastElem-2;
-                }
-                else if(shapeNum==6 && Rotate==3){
-                    lastColShape = lastElem-1;
-                }
-                else if(shapeNum==5 && Rotate==0){
-                    lastColShape = lastElem-2;
-                }
-                else if(shapeNum==5 && Rotate==3){
-                    lastColShape = lastElem-1;
-                }
-                else if(shapeNum==4){
-                    lastColShape = lastElem-1;
-                }
-                else if(shapeNum==3 && Rotate==2){
-                    lastColShape = lastElem-1;
-                }
-                else if(shapeNum==3 && Rotate==3){
-                    lastColShape = lastElem-2;
-                }
-                else if(shapeNum==2 && Rotate==0){
-                    lastColShape = lastElem-1;
-                }
-                else if(shapeNum==2 && Rotate==3){
-                    lastColShape = lastElem-2;
-                }
-                else if(shapeNum==1 && Rotate==2){
-                    lastColShape = lastElem-3;
-                }
-                else{
-                    lastColShape = lastElem;
-                }
-                if(lastColShape+1<19&&boardArr[currentRow][lastColShape+1]!=ch){
-                for (int i = 0; i < srow; i++)
-                {
-                    for (int j = 0; j < scol; j++)
+                    if (Rotate == 3)
                     {
-                        int a = 1;
-                        boardArr[currentRow][lastColShape+a] = boardArr[currentRow][lastColShape];
-                       // lastElem--;
-                       a++;
+                        Rotate = 0;
                     }
-                   // lastElem-=4;
-                    currentRow++;
-                }
-                firstElem++;
-                lastElem++;
-                currentRow -= 4;
+                    else
+                    {
+                        Rotate += 1;
+                    }
                 }
             }
-            gotoRowCol(7, 60);
-            cout << firstElem;
-            gotoRowCol(9, 60);
-            cout << lastElem;
-            //left
+            // right
+
+            if (key == 77)
+            {
+                int lastColShape=lastElem;
+                int lastRowShape=currentRow;
+
+                if((shapeNum == 7 && Rotate == 0)||(shapeNum == 6 && Rotate == 3)||(shapeNum == 5 && Rotate == 3)||(shapeNum == 4)||(shapeNum == 3 && Rotate == 0)||(shapeNum == 3 && Rotate == 2)||(shapeNum == 2 && Rotate == 0)){
+                    lastColShape = lastElem - 1;
+                }
+                else if((shapeNum == 7 && Rotate == 3)||(shapeNum == 6 && Rotate == 2)||(shapeNum == 5 && Rotate == 0)||(shapeNum == 3 && Rotate == 3)||(shapeNum == 2 && Rotate == 3)){
+                    lastColShape = lastElem - 2;
+                }
+                else if((shapeNum == 1 && Rotate == 3)){
+                    lastColShape = lastElem - 3;
+                }
+                if((shapeNum == 7 && Rotate == 0)||(shapeNum == 5 && Rotate == 1)||(shapeNum == 3 && Rotate == 0)||(shapeNum == 1 && Rotate == 0)){
+                    lastRowShape = currentRow-1;
+                }
+                else if((shapeNum == 7 && Rotate == 2)||(shapeNum == 6 && Rotate == 1)||(shapeNum == 2 && Rotate == 2)||(shapeNum == 1 && Rotate == 2)){
+                    lastRowShape = currentRow +2;
+                }
+                else if((shapeNum == 7 && Rotate == 3)||(shapeNum == 5 && Rotate == 0)||(shapeNum == 5 && Rotate == 3)||(shapeNum == 3 && Rotate == 1)||(shapeNum == 3 && Rotate == 2)){
+                    lastRowShape = currentRow +1;
+                }
+
+                if (lastColShape + 1 < 29 && boardArr[lastRowShape][lastColShape + 1] != ch)
+                {
+                    firstElem++;
+                    lastElem++;
+                }
+            }
+
+            // left
             if (key == 75)
             {
-                int firstColShape;
-                if(shapeNum==1&&Rotate==1){
-                    firstColShape = firstElem+3;
+                int firstColShape =firstElem;
+                int firstRowShape=currentRow;
+                if((shapeNum == 1 && Rotate == 1)){
+                    firstColShape = firstElem + 3;
                 }
-                else if(shapeNum==2&&Rotate==1){
-                    firstColShape = firstElem+2;
+                else if((shapeNum == 2 && Rotate == 1)||(shapeNum == 3 && Rotate == 1)||(shapeNum == 5 && Rotate == 2)||(shapeNum == 6 && Rotate == 0)||(shapeNum == 7 && Rotate == 1)){
+                    firstColShape = firstElem + 2;
                 }
-                else if(shapeNum==2&&Rotate==2){
-                    firstColShape = firstElem+1;
-                }
-                else if(shapeNum==3&&Rotate==0){
-                    firstColShape = firstElem+1;
-                }
-                else if(shapeNum==3&&Rotate==1){
-                    firstColShape = firstElem+2;
-                }
-                else if(shapeNum==4){
-                    firstColShape = firstElem+1;
-                }
-                else if(shapeNum==5&&Rotate==1){
-                    firstColShape = firstElem+1;
-                }
-                else if(shapeNum==5&&Rotate==2){
-                    firstColShape = firstElem+2;
-                }
-                else if(shapeNum==6&&Rotate==0){
-                    firstColShape = firstElem+2;
-                }
-                else if(shapeNum==6&&Rotate==1){
-                    firstColShape = firstElem+1;
-                }
-                else if(shapeNum==7&&Rotate==1){
-                    firstColShape = firstElem+2;
-                }
-                else if(shapeNum==7&&Rotate==2){
-                    firstColShape = firstElem+1;
-                }
-                else{
-                    firstColShape = firstElem;
+                else if((shapeNum == 2 && Rotate == 2)||(shapeNum == 3 && Rotate == 0)||(shapeNum == 4)||(shapeNum == 5 && Rotate == 1)||(shapeNum == 6 && Rotate == 1)||(shapeNum == 7 && Rotate == 2)){
+                    firstColShape = firstElem + 1;
                 }
 
-                if(firstColShape-1>0&&boardArr[currentRow][firstColShape-1]!=ch){
-                for (int i = 0; i < srow; i++)
-                {
-                    for (int j = 0; j < scol; j++)
-                    {
-                        int a=1;
-                        boardArr[currentRow][firstColShape-a] = boardArr[currentRow][firstColShape];
-                       // firstElem--;
-                       a++;
-                    }
-                   // firstElem+=4;
-                    currentRow++;
+                if((shapeNum == 2 && Rotate == 0)||(shapeNum == 6 && Rotate == 3)||(shapeNum == 7 && Rotate == 0)){
+                    firstRowShape = currentRow-1;
                 }
-                firstElem--;
-                lastElem--;
-                currentRow -= 4;}
+                else if((shapeNum == 2 && Rotate == 2)||(shapeNum == 2 && Rotate == 3)||(shapeNum == 6 && Rotate == 0)||(shapeNum == 6 && Rotate == 1)){
+                    firstRowShape = currentRow+1;
+                }
+                else if((shapeNum == 3 && Rotate == 2)||(shapeNum == 5 && Rotate == 3)||(shapeNum == 7 && Rotate == 2)){
+                    firstRowShape = currentRow+2;
+                }
+
+
+
+                if (firstColShape - 1 > 0 && boardArr[firstRowShape][firstColShape - 1] != ch)
+                {
+                    firstElem--;
+                    lastElem--;
+                }
             }
-            gotoRowCol(7, 60);
-            cout << firstElem;
-            gotoRowCol(9, 60);
-            cout << lastElem;
         }
-
-//printing shape
-        /*for (int i = 0; i < srow; i++)
-        {
-            for (int j = 0; j < scol; j++)
-            {
-                if (boardArr[currentRow][firstElem] != ch || shape[i][j] != '-')
-                {
-                    boardArr[currentRow][firstElem] = shape[i][j];
-                }
-                firstElem++;
-            }
-            firstElem -= 4;
-            currentRow++;
-        }
-        currentRow -= 3;*/
-       for (int i = 0; i < srow; i++)
-        {
-            for (int j = 0; j < scol; j++)
-            {
-                if ( shape[i][j] == ch)
-                {
-                    boardArr[currentRow][firstElem] = shape[i][j];
-                }
-                firstElem++;
-            }
-            firstElem -= 4;
-            currentRow++;
-        }
-        currentRow -= 3;
-
-//sleep(12000);
-        gotoRowCol(0, 0);
-        printBoard(height, boardArr);
-        if( Collision(currentRow,shapeNum,Rotate,firstElem, lastElem,boardArr,ch)){
-                int resetShapeIter;
-                if(Rotate==1){
-                    resetShapeIter = 3;
-                }
-                else if(Rotate==2){
-                    resetShapeIter = 2;
-                }
-                else if(Rotate==3){
-                    resetShapeIter = 1;
-                }
-                for(int i=1;i<=resetShapeIter;i++){
-                    shapeRotation(shape,srow,scol);
-                }
-                Rotate=0;
-        break;
-       }
-//erasing shape
-erasingShapes(shapeNum,Rotate,boardArr,currentRow,firstElem);
-       /*for (int i = 0; i < srow; i++)
-        {
-            for (int j = 0; j < scol; j++)
-            {
-                //if(boardArr[currentRow - 1][firstElem] != '-'){
-                boardArr[currentRow - 1][firstElem] = '-';
-                if (shapeNum == 1)
-                {
-                    boardArr[currentRow][firstElem] = '-';
-                    if (Rotate == 1)
-                    {
-                        boardArr[currentRow + 1][firstElem] = '-';
-                        boardArr[currentRow + 2][firstElem] = '-';
-                    }
-                }
-                if (shapeNum == 2)
-                {
-                    boardArr[currentRow][firstElem] = '-';
-                    if (Rotate == 1)
-                    {
-                        boardArr[currentRow + 1][firstElem] = '-';
-                    }
-                }
-                if (shapeNum == 3)
-                {
-                    boardArr[currentRow][firstElem] = '-';
-                    boardArr[currentRow + 1][firstElem] = '-';
-                    if (Rotate == 1)
-                    {
-                        boardArr[currentRow+2][firstElem] = '-';
-                    }
-                }
-                if (shapeNum == 5 || shapeNum == 6)
-                {
-                    boardArr[currentRow][firstElem] = '-';
-                    boardArr[currentRow + 1][firstElem] = '-';
-                    if (Rotate == 1)
-                    {
-                        boardArr[currentRow + 2][firstElem] = '-';
-                    }
-                }
-                if (shapeNum == 7)
-                {
-                    boardArr[currentRow][firstElem] = '-';
-                    if(Rotate==1){
-                        boardArr[currentRow + 1][firstElem] = '-';
-                    }
-                }
-                if(shapeNum==4){
-                    boardArr[currentRow][firstElem] = '-';
-                }
-               // }
-                firstElem++;
-            }
-            firstElem -=4;
-        }
-
-*/
-
-        gotoRowCol(0, 0);
-        printBoard(height, boardArr);
-        //  getch();
-        //  gotoRowCol(0,0);
-        //  printBoard(height, boardArr);
-        /* if (kbhit())
-         {
-             int key = getch();
-             if (key == 72 || key == 80)
-             {
-                 if(shapeNum!=4){
-                 shapeRotation(shape, srow, scol);
-                 if (Rotate == 0)
-                 {
-                     Rotate = 1;
-                 }
-                 else if(Rotate==1)
-                 {
-                     Rotate = 0;
-                 }
-                 }
-             }
-         }
-
-         /* int nextLine;
-          if(Rotate=0){
-               nextLine = currentRow+4;
-          }else if(Rotate=1){
-               nextLine = currentRow;
-          }*/
-
-//sleep(8000);
-        //getch();
 
     }
-    //}
 }
+void loadArr(char boardArr[][30],int rows,int &cScore){
+     ifstream read("save.txt");
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < 30; j++)
+                {
 
-
+                    read >> boardArr[i][j];
+                }
+            }
+            read >> cScore;
+            //read >> hScore;
+}
 int main()
 {
-    int height = 30;
-    char boardArr[height][20];
+    int height = 35;
+    char boardArr[height][30];
     char blockElement = 219;
 
     char Line[4][4] = {{blockElement, blockElement, blockElement, blockElement},
@@ -1073,99 +932,141 @@ int main()
     int shapeRows = 4, shapeCols = 4;
     int shapeNum = 5;
     int shapeRotate = 0;
-    int shapeStart = 8, shapeEnd = 11;
-   // shapeRotation(J, shapeRows,shapeCols);
-     /*for (int i = 0; i < shapeRows; i++){
-         for (int j = 0; j < shapeCols; j++){
-             cout<<J[i][j]<<" ";
-         }
-         cout<<endl;
-     }
+    int shapeStart = 13, shapeEnd = 16;
+    int currentScore = 0;//, highScore = 0;
+    // shapeRotation(J, shapeRows,shapeCols);
+  /* for (int i = 0; i < shapeRows; i++){
+        for (int j = 0; j < shapeCols; j++){
+            cout<<Line[i][j]<<" ";
+        }
+        cout<<endl;
+    }
 cout<<endl;
-     shapeRotation(J,shapeRows,shapeCols);
-     for (int i = 0; i < shapeRows; i++){
-         for (int j = 0; j < shapeCols; j++){
-             cout<<J[i][j]<<" ";
-         }
-         cout<<endl;
-     }
-     cout<<endl;
-     shapeRotation(J,shapeRows,shapeCols);
-     for (int i = 0; i < shapeRows; i++){
-         for (int j = 0; j < shapeCols; j++){
-             cout<<J[i][j]<<" ";
-         }
-         cout<<endl;
-     }
-     cout<<endl;
-     shapeRotation(J,shapeRows,shapeCols);
-     for (int i = 0; i < shapeRows; i++){
-         for (int j = 0; j < shapeCols; j++){
-             cout<<J[i][j]<<" ";
-         }
-         cout<<endl;
-     }
-     cout<<endl;
-     shapeRotation(J,shapeRows,shapeCols);
-     for (int i = 0; i < shapeRows; i++){
-         for (int j = 0; j < shapeCols; j++){
-             cout<<J[i][j]<<" ";
-         }
-         cout<<endl;
-     }
+    shapeRotation(Line,shapeRows,shapeCols);
+    for (int i = 0; i < shapeRows; i++){
+        for (int j = 0; j < shapeCols; j++){
+            cout<<Line[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    cout<<endl;
+    shapeRotation(Line,shapeRows,shapeCols);
+    for (int i = 0; i < shapeRows; i++){
+        for (int j = 0; j < shapeCols; j++){
+            cout<<Line[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    cout<<endl;
+    shapeRotation(Line,shapeRows,shapeCols);
+    for (int i = 0; i < shapeRows; i++){
+        for (int j = 0; j < shapeCols; j++){
+            cout<<Line[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    cout<<endl;
+    shapeRotation(Line,shapeRows,shapeCols);
+    for (int i = 0; i < shapeRows; i++){
+        for (int j = 0; j < shapeCols; j++){
+            cout<<Line[i][j]<<" ";
+        }
+        cout<<endl;
+    }
 */
-  fillBoard(height, boardArr, blockElement);
+    char choice;
+    do
+    {
+
+        cout << "Press 'L' or 'l' to load game and 'N' or 'n' for new game: ";
+        cin >> choice;
+        if (choice == 'L' || choice == 'l')
+        {
+           loadArr(boardArr,height,currentScore);
+        }
+        else if (choice == 'N' || choice == 'n')
+        {
+            fillBoard(height, boardArr, blockElement);
+            currentScore = 0;
+            //highScore = 0;
+            saveArr(boardArr,  currentScore);
+        }
+    } while (choice != 'L' && choice != 'l' && choice != 'N' && choice != 'n');
+    system("CLS");
     printBoard(height, boardArr);
-    while(true){
-            srand(time(0));
-            int randomShape = (rand()%7)+1;
-    if(randomShape==1){
 
-   blockMovement(height, boardArr, blockElement,Line , shapeRows, shapeCols, randomShape, shapeRotate);
-    }
-    else if(randomShape==2){
-
-   blockMovement(height, boardArr, blockElement,Zed , shapeRows, shapeCols, randomShape, shapeRotate);
-    }
-    else if(randomShape==3){
-
-   blockMovement(height, boardArr, blockElement,S , shapeRows, shapeCols, randomShape, shapeRotate);
-    }
-    else if(randomShape==4){
-
-   blockMovement(height, boardArr, blockElement,Square , shapeRows, shapeCols, randomShape, shapeRotate);
-    }
-    else if(randomShape==5){
-
-   blockMovement(height, boardArr, blockElement,L , shapeRows, shapeCols, randomShape, shapeRotate);
-    }
-    else if(randomShape==6){
-
-   blockMovement(height, boardArr, blockElement,J , shapeRows, shapeCols, randomShape, shapeRotate);
-    }
-    else if(randomShape==7){
-
-   blockMovement(height, boardArr, blockElement,T , shapeRows, shapeCols, randomShape, shapeRotate);
-    }
-  // shapeRotate=0;
-    for(int i=0;i<height-1;i++){
-
-        if(boardArr[i][0] == blockElement && boardArr[i][1] == blockElement && boardArr[i][2] == blockElement && boardArr[i][3] == blockElement && boardArr[i][4] == blockElement && boardArr[i][5] == blockElement && boardArr[i][6] == blockElement && boardArr[i][7] == blockElement && boardArr[i][8] == blockElement && boardArr[i][9] == blockElement && boardArr[i][10] == blockElement && boardArr[i][11] == blockElement && boardArr[i][12] == blockElement && boardArr[i][13] == blockElement && boardArr[i][14] == blockElement && boardArr[i][15] == blockElement && boardArr[i][16] == blockElement && boardArr[i][17] == blockElement && boardArr[i][18] == blockElement && boardArr[i][19] == blockElement){
-            removeARow(boardArr,i);
-            for(int i=1;i<19;i++){
-            boardArr[0][i] = '-';
+    gotoRowCol(1, 60);
+    cout << "Score: " << currentScore;
+   // gotoRowCol(2, 60);
+    //cout << "High Score: " << highScore;
+    while (true)
+    {
+        srand(time(0));
+        int randomShape = (rand() % 7) + 1;
+        if (randomShape == 1)
+        {
+            blockMovement(height, boardArr, blockElement, Line, shapeRows, shapeCols, randomShape, shapeRotate, currentScore);
         }
+        else if (randomShape == 2)
+        {
+            blockMovement(height, boardArr, blockElement, Zed, shapeRows, shapeCols, randomShape, shapeRotate, currentScore);
         }
+        else if (randomShape == 3)
+        {
+            blockMovement(height, boardArr, blockElement, S, shapeRows, shapeCols, randomShape, shapeRotate, currentScore);
+        }
+        else if (randomShape == 4)
+        {
+            blockMovement(height, boardArr, blockElement, Square, shapeRows, shapeCols, randomShape, shapeRotate, currentScore);
+        }
+        else if (randomShape == 5)
+        {
+            blockMovement(height, boardArr, blockElement, L, shapeRows, shapeCols, randomShape, shapeRotate, currentScore);
+        }
+        else if (randomShape == 6)
+        {
+            blockMovement(height, boardArr, blockElement, J, shapeRows, shapeCols, randomShape, shapeRotate, currentScore);
+        }
+        else if (randomShape == 7)
+        {
+            blockMovement(height, boardArr, blockElement, T, shapeRows, shapeCols, randomShape, shapeRotate, currentScore);
+        }
+        currentScore += 10;
+      //  highScore += 10;
+        gotoRowCol(1, 60);
+        cout << "Score: " << currentScore;
+        //gotoRowCol(2, 60);
+        //cout << "High Score: " << highScore;
+        for (int i = 0; i < height - 1; i++)
+        {
 
+            if (boardArr[i][0] == blockElement && boardArr[i][1] == blockElement && boardArr[i][2] == blockElement && boardArr[i][3] == blockElement && boardArr[i][4] == blockElement && boardArr[i][5] == blockElement && boardArr[i][6] == blockElement && boardArr[i][7] == blockElement && boardArr[i][8] == blockElement && boardArr[i][9] == blockElement && boardArr[i][10] == blockElement && boardArr[i][11] == blockElement && boardArr[i][12] == blockElement && boardArr[i][13] == blockElement && boardArr[i][14] == blockElement && boardArr[i][15] == blockElement && boardArr[i][16] == blockElement && boardArr[i][17] == blockElement && boardArr[i][18] == blockElement && boardArr[i][19] == blockElement)
+            {
+                cout<<"\a\a";
+                removeARow(boardArr, i);
+                currentScore += 100;
+               // highScore += 100;
 
-
-    }
-    if(boardArr[4][8]==blockElement || boardArr[4][9]==blockElement || boardArr[4][10]==blockElement || boardArr[4][11]==blockElement){
-        break;
-    }
-            //shapeStart = 8;
-           // shapeEnd = 11;
-           // shapeRotate = 0;
+                gotoRowCol(1, 60);
+                cout << "Score: " << currentScore;
+               // gotoRowCol(2, 60);
+               // cout << "High Score: " << highScore;
+                for (int i = 1; i < 29; i++)
+                {
+                    boardArr[0][i] = '-';
+                }
+            }
+        }
+        if (boardArr[3][shapeStart] == blockElement || boardArr[3][shapeStart+1] == blockElement || boardArr[3][shapeStart+2] == blockElement || boardArr[3][shapeStart+3] == blockElement)
+        {
+            system("CLS");
+            gotoRowCol(5,20);
+            cout<<"Score: "<<currentScore;
+            gotoRowCol(10,20);
+            cout<<"GAME OVER!!!";
+            sleep(20000);
+            break;
+        }
     }
     return 0;
 }
