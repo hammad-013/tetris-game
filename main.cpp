@@ -561,20 +561,14 @@ void erasingShapes(int shapeNum, int Rotate, char boardArr[][30], int removeRow,
     }
     else if (shapeNum == 2 )
     {
-        gotoRowCol(6, 60);
-        cout << removeRow;
         removeRow++;
         removeCol++;
         for (int i = 0; i < 2; i++)
         {
             boardArr[removeRow][removeCol + i] = '-';
         }
-        gotoRowCol(6, 60);
-        cout << removeRow;
         removeRow++;
         removeCol++;
-        gotoRowCol(6, 60);
-        cout << removeRow;
         for (int i = 0; i < 2; i++)
         {
             boardArr[removeRow][removeCol + i] = '-';
@@ -728,14 +722,11 @@ void saveArr(char boardArr[][30], int cScore)
     {
         for (int j = 0; j < 30; j++)
         {
-            // if(boardArr[i][j]== ch){
             write << boardArr[i][j];
-            // }else{
-            // write<<0;}
         }
         write << endl;
     }
-    write << cScore /*<< " " << hScore*/;
+    write << cScore ;
 }
 void blockMovement(int height, char boardArr[][30], char ch, char shape[][4], int srow, int scol, int shapeNum, int &Rotate, int cScore)
 {
@@ -757,9 +748,7 @@ void blockMovement(int height, char boardArr[][30], char ch, char shape[][4], in
                 {
                     boardArr[currentRow][firstElem+j] = shape[i][j];
                 }
-               // firstElem++;
             }
-            //firstElem -= 4;
             currentRow++;
         }
         currentRow -= 3;
@@ -892,7 +881,6 @@ void loadArr(char boardArr[][30],int rows,int &cScore){
                 }
             }
             read >> cScore;
-            //read >> hScore;
 }
 int main()
 {
@@ -930,10 +918,9 @@ int main()
                     {'-', '-', '-', '-'}};
 
     int shapeRows = 4, shapeCols = 4;
-    int shapeNum = 5;
     int shapeRotate = 0;
     int shapeStart = 13, shapeEnd = 16;
-    int currentScore = 0;//, highScore = 0;
+    int currentScore = 0;
     // shapeRotation(J, shapeRows,shapeCols);
   /* for (int i = 0; i < shapeRows; i++){
         for (int j = 0; j < shapeCols; j++){
@@ -988,7 +975,6 @@ cout<<endl;
         {
             fillBoard(height, boardArr, blockElement);
             currentScore = 0;
-            //highScore = 0;
             saveArr(boardArr,  currentScore);
         }
     } while (choice != 'L' && choice != 'l' && choice != 'N' && choice != 'n');
@@ -997,8 +983,6 @@ cout<<endl;
 
     gotoRowCol(1, 60);
     cout << "Score: " << currentScore;
-   // gotoRowCol(2, 60);
-    //cout << "High Score: " << highScore;
     while (true)
     {
         srand(time(0));
@@ -1031,12 +1015,9 @@ cout<<endl;
         {
             blockMovement(height, boardArr, blockElement, T, shapeRows, shapeCols, randomShape, shapeRotate, currentScore);
         }
-        currentScore += 10;
-      //  highScore += 10;
+       // currentScore += 10;
         gotoRowCol(1, 60);
         cout << "Score: " << currentScore;
-        //gotoRowCol(2, 60);
-        //cout << "High Score: " << highScore;
         for (int i = 0; i < height - 1; i++)
         {
 
@@ -1045,25 +1026,23 @@ cout<<endl;
                 cout<<"\a\a";
                 removeARow(boardArr, i);
                 currentScore += 100;
-               // highScore += 100;
 
                 gotoRowCol(1, 60);
                 cout << "Score: " << currentScore;
-               // gotoRowCol(2, 60);
-               // cout << "High Score: " << highScore;
                 for (int i = 1; i < 29; i++)
                 {
                     boardArr[0][i] = '-';
                 }
             }
         }
+        saveArr(boardArr,currentScore);
         if (boardArr[3][shapeStart] == blockElement || boardArr[3][shapeStart+1] == blockElement || boardArr[3][shapeStart+2] == blockElement || boardArr[3][shapeStart+3] == blockElement)
         {
             system("CLS");
             gotoRowCol(5,20);
             cout<<"Score: "<<currentScore;
             gotoRowCol(10,20);
-            cout<<"GAME OVER!!!";
+            cout<<"GAME OVER!!!"<<endl<<endl<<endl;
             sleep(20000);
             break;
         }
